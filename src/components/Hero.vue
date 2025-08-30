@@ -552,11 +552,14 @@ input::placeholder {
     }
 
     .container {
-        grid-template-columns: 1fr;
-        padding: 10px;
-        margin-left: 0;
-        justify-items: center;
-        /* Center everything */
+        display: flex;
+        flex-direction: column;
+        padding: 0 15px; /* small padding on sides */
+        margin: 0 auto;
+        max-width: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
     }
 
     .hero-left {

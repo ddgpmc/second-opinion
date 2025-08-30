@@ -236,7 +236,11 @@ export default defineComponent({
             })
                 .then(() => {
                     alert('Form submitted successfully!');
-                    form.value = { name: '', email: '', phone: '', bestTime: '', hasQuote: '' };
+                    form.value = {
+                        name: '', email: '', phone: '', bestTime: '', hasQuote: '', bestTimeHour: '',
+                        bestTimeMinute: '',
+                        bestTimeAmPm: ''
+                    };
                 })
                 .catch((error) => {
                     console.error('Error submitting form:', error);

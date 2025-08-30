@@ -137,8 +137,8 @@ export default defineComponent({
     position: relative;
     font-size: 0.9rem;
     font-weight: 500;
-    color: black;
-    padding-left: 12px;
+    color: rgb(0, 0, 0);
+    padding-left: 20px; /* leave space for icon */
 }
 
 .location-dot::before {
@@ -147,12 +147,14 @@ export default defineComponent({
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background: #0148a5;
-    border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0, 212, 255, 0.6);
+    width: 16px; /* adjust size to your icon */
+    height: 16px;
+    background-image: url('/src/assets/download.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
+
 
 .contact-info {
     text-align: right;

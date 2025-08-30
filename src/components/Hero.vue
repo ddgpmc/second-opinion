@@ -1,22 +1,123 @@
-<template>
-    <section class="hero">
-        <!-- Desktop background -->
-        <div class="hero-bg desktop" :style="`background-image: url(${bgUrl})`"></div>
-        <div class="hero-overlay desktop"></div>
+    <template>
+        <section class="hero">
+            <!-- Desktop background -->
+            <div class="hero-bg desktop" :style="`background-image: url(${bgUrl})`"></div>
+            <div class="hero-overlay desktop"></div>
 
-        <!-- Mobile/Tablet top image -->
-        <div class="hero-mobile">
-            <img src="/src/assets/mobile-image.jpg" alt="hero mobile" class="mobile-img" />
-        </div>
+            <!-- Mobile/Tablet top image -->
+            <div class="hero-mobile">
+                <img src="/src/assets/mobile-image.jpg" alt="hero mobile" class="mobile-img" />
+            </div>
 
-        <div class="hero-inner container">
-            <!-- Left Content -->
-            <div class="hero-left">
-                <small class="eyebrow">Not Sure About Your Implant Quote?</small>
-                <h1 class="headline">Get a Trusted Second Opinion Free.</h1>
+            <div class="hero-inner container">
+                <!-- Left Content -->
+                <div class="hero-left">
+                    <small class="eyebrow">Not Sure About Your Implant Quote?</small>
+                    <h1 class="headline">Get a Trusted Second Opinion Free.</h1>
 
-                <!-- Mobile form (shown only on mobile/tablet) -->
-                <aside class="form-wrapper mobile-form" ref="formBlockMobile">
+                    <!-- Mobile form (shown only on mobile/tablet) -->
+                    <aside class="form-wrapper mobile-form" ref="formBlockMobile">
+
+                        <div class="hero-form">
+                            <div class="form-header">
+                                <h2 class="form-title">Get Your Free Second Opinion Today</h2>
+                                <p class="form-desc">Upload your treatment quote for a free second opinion.</p>
+                                <p class="form-sub">We'll review your plan using modern techniques — no pressure, just
+                                    clarity.</p>
+                            </div>
+                            <form class="form" @submit.prevent="onSubmit">
+                                <div class="field-row">
+                                    <label class="field">
+                                        <span class="label">Full name</span>
+                                        <input v-model="form.name" type="text" required autocomplete="name" />
+                                    </label>
+                                    <label class="field">
+                                        <span class="label">Phone</span>
+                                        <input ref="phoneInputMobile" type="tel" placeholder="Enter phone number" />
+                                    </label>
+                                </div>
+
+                                <div class="field-row">
+                                    <label class="field">
+                                        <span class="label">Email</span>
+                                        <input v-model="form.email" type="email" required autocomplete="email" />
+                                    </label>
+                                    <label class="field">
+                                        <span class="label">Best time to call</span>
+                                        <div class="time-picker">
+                                            <select v-model="form.bestTimeHour">
+                                                <option disabled value="">Hour</option>
+                                                <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
+                                            </select>
+                                            :
+                                            <select v-model="form.bestTimeMinute">
+                                                <option disabled value="">Minute</option>
+                                                <option v-for="m in 60" :key="m" :value="m">
+                                                    {{ m < 10 ? '0' + m : m }} </option>
+                                            </select>
+                                            <select v-model="form.bestTimeAmPm">
+                                                <option value="AM">AM</option>
+                                                <option value="PM">PM</option>
+                                            </select>
+                                        </div>
+                                    </label>
+
+                                </div>
+
+                                <label class="field">
+                                    <span class="label">Have a written quote?</span>
+                                    <select v-model="form.hasQuote" required>
+                                        <option value="">Choose an option</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </label>
+                                <button class="submit" type="submit">Send my free second opinion</button>
+                            </form>
+                        </div>
+                    </aside>
+
+                    <!-- Normal content -->
+                    <p class="sub">
+                        Bring your quote and speak with New York's top full-mouth implant team.
+                        Over 25 years of experience, same-day teeth, minimally invasive treatment,
+                        and a price-match guarantee on any comparable plan.
+                    </p>
+                    <h2 class="why-title">Why Patients Choose Us:</h2>
+                    <ul class="bullets">
+                        <li><span>25+ years</span> of full-mouth implant expertise</li>
+                        <li><span>Same-day tooth replacement.</span> Walk out smiling</li>
+                        <li><span>Minimally invasive care</span> backed by advanced technology</li>
+                        <li><span>Unmatched quality</span> at a better price</li>
+                        <li><span>Flexible monthly payments*</span> starting from $299 per arch or $597 full mouth</li>
+                    </ul>
+                    <p class="note">
+                        Financing available upon approved credit. Terms and conditions apply.
+                    </p>
+                    <div class="form-top-logos-mobile">
+                        <img src="/src/assets/logos.webp" alt="logos" />
+                    </div>
+                    <!-- CTA Cards -->
+                    <div class="cta-cards">
+                        <div class="cta-card" @click="scrollToForm">
+                            <i class="fas fa-dollar-sign cta-icon"></i>
+                            <div class="cta-content">
+                                <h3 class="cta-title">Bring your Quote</h3>
+                                <p class="cta-desc">We’ll beat your quote without compromising quality.​</p>
+                            </div>
+                        </div>
+                        <div class="cta-card" @click="scrollToForm">
+                            <i class="fas fa-phone cta-icon"></i>
+                            <div class="cta-content">
+                                <h3 class="cta-title">Talk to us</h3>
+                                <p class="cta-desc">Call or chat for help with pricing or treatment options.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop sidebar form -->
+                <aside class="form-wrapper desktop-form" ref="formBlock">
                     <div class="form-top-logos">
                         <img src="/src/assets/logos.webp" alt="logos" />
                     </div>
@@ -25,7 +126,8 @@
                             <h2 class="form-title">Get Your Free Second Opinion Today</h2>
                             <p class="form-desc">Upload your treatment quote for a free second opinion.</p>
                             <p class="form-sub">We'll review your plan using modern techniques — no pressure, just
-                                clarity.</p>
+                                clarity.
+                            </p>
                         </div>
                         <form class="form" @submit.prevent="onSubmit">
                             <div class="field-row">
@@ -35,7 +137,7 @@
                                 </label>
                                 <label class="field">
                                     <span class="label">Phone</span>
-                                    <input ref="phoneInputMobile" type="tel" placeholder="Enter phone number" />
+                                    <input ref="phoneInputDesktop" type="tel" placeholder="Enter phone number" />
                                 </label>
                             </div>
 
@@ -51,11 +153,11 @@
                                             <option disabled value="">Hour</option>
                                             <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
                                         </select>
-                                        :
+                                        <span>:</span>
                                         <select v-model="form.bestTimeMinute">
                                             <option disabled value="">Minute</option>
-                                            <option v-for="m in 60" :key="m" :value="m">
-                                                {{ m < 10 ? '0' + m : m }} </option>
+                                            <option v-for="m in 60" :key="m" :value="m">{{ m < 10 ? '0' + m : m
+                                                    }}</option>
                                         </select>
                                         <select v-model="form.bestTimeAmPm">
                                             <option value="AM">AM</option>
@@ -78,116 +180,16 @@
                         </form>
                     </div>
                 </aside>
-
-                <!-- Normal content -->
-                <p class="sub">
-                    Bring your quote and speak with New York's top full-mouth implant team.
-                    Over 25 years of experience, same-day teeth, minimally invasive treatment,
-                    and a price-match guarantee on any comparable plan.
-                </p>
-                <h2 class="why-title">Why Patients Choose Us:</h2>
-                <ul class="bullets">
-                    <li><span>25+ years</span> of full-mouth implant expertise</li>
-                    <li><span>Same-day tooth replacement.</span> Walk out smiling</li>
-                    <li><span>Minimally invasive care</span> backed by advanced technology</li>
-                    <li><span>Unmatched quality</span> at a better price</li>
-                    <li><span>Flexible monthly payments*</span> starting from $299 per arch or $597 full mouth</li>
-                </ul>
-                <p class="note">
-                    Financing available upon approved credit. Terms and conditions apply.
-                </p>
-
-                <!-- CTA Cards -->
-                <div class="cta-cards">
-                    <div class="cta-card" @click="scrollToForm">
-                        <i class="fas fa-dollar-sign cta-icon"></i>
-                        <div class="cta-content">
-                            <h3 class="cta-title">Bring your Quote</h3>
-                            <p class="cta-desc">We’ll beat your quote without compromising quality.​</p>
-                        </div>
-                    </div>
-                    <div class="cta-card" @click="scrollToForm">
-                        <i class="fas fa-phone cta-icon"></i>
-                        <div class="cta-content">
-                            <h3 class="cta-title">Talk to us</h3>
-                            <p class="cta-desc">Call or chat for help with pricing or treatment options.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-            <!-- Desktop sidebar form -->
-            <aside class="form-wrapper desktop-form" ref="formBlock">
-                <div class="form-top-logos">
-                    <img src="/src/assets/logos.webp" alt="logos" />
-                </div>
-                <div class="hero-form">
-                    <div class="form-header">
-                        <h2 class="form-title">Get Your Free Second Opinion Today</h2>
-                        <p class="form-desc">Upload your treatment quote for a free second opinion.</p>
-                        <p class="form-sub">We'll review your plan using modern techniques — no pressure, just clarity.
-                        </p>
-                    </div>
-                    <form class="form" @submit.prevent="onSubmit">
-                        <div class="field-row">
-                            <label class="field">
-                                <span class="label">Full name</span>
-                                <input v-model="form.name" type="text" required autocomplete="name" />
-                            </label>
-                            <label class="field">
-                                <span class="label">Phone</span>
-                                <input ref="phoneInputDesktop" type="tel" placeholder="Enter phone number" />
-                            </label>
-                        </div>
-
-                        <div class="field-row">
-                            <label class="field">
-                                <span class="label">Email</span>
-                                <input v-model="form.email" type="email" required autocomplete="email" />
-                            </label>
-                            <label class="field">
-                                <span class="label">Best time to call</span>
-                                <div class="time-picker">
-                                    <select v-model="form.bestTimeHour">
-                                        <option disabled value="">Hour</option>
-                                        <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
-                                    </select>
-                                    <span>:</span>
-                                    <select v-model="form.bestTimeMinute">
-                                        <option disabled value="">Minute</option>
-                                        <option v-for="m in 60" :key="m" :value="m">{{ m < 10 ? '0' + m : m }}</option>
-                                    </select>
-                                    <select v-model="form.bestTimeAmPm">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
-                                    </select>
-                                </div>
-                            </label>
-
-                        </div>
-
-                        <label class="field">
-                            <span class="label">Have a written quote?</span>
-                            <select v-model="form.hasQuote" required>
-                                <option value="">Choose an option</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </label>
-                        <button class="submit" type="submit">Send my free second opinion</button>
-                    </form>
-                </div>
-            </aside>
-        </div>
-    </section>
-</template>
+        </section>
+    </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import headerBg from '../assets/header-bg.webp';
 import intlTelInput from 'intl-tel-input';
-import '../assets/css/hero.css'; // <-- import the separate CSS file
+import '../assets/css/hero.css';
 
 export default defineComponent({
     name: 'Hero',
@@ -208,10 +210,10 @@ export default defineComponent({
             if (phoneInputMobile.value) {
                 itiMobile.value = intlTelInput(phoneInputMobile.value, {
                     initialCountry: 'us',
-                    separateDialCode: true,
+                    separateDialCode: false,
                     utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js',
-                    nationalMode: false,
-                    autoHideDialCode: false
+                    nationalMode: true,
+                    autoHideDialCode: true
                 } as any);
             }
             if (phoneInputDesktop.value) {
@@ -289,7 +291,6 @@ export default defineComponent({
             rgba(3, 53, 102, 0.15) 65%,
             rgba(218, 211, 211, 0) 85%);
 }
-
 /* Mobile/Tablet hero image */
 .hero-mobile {
     display: none;
@@ -336,6 +337,10 @@ export default defineComponent({
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     margin: 12px 0 16px;
     line-height: 1.05;
+}
+
+.form-top-logos-mobile {
+    display: none;
 }
 
 .sub {
@@ -450,6 +455,8 @@ export default defineComponent({
 
 .form-top-logos {
     margin-bottom: 20px;
+    width: 100%;
+    background-color: white;
 }
 
 .form-top-logos img {
@@ -519,7 +526,43 @@ input::placeholder {
     font-weight: 700;
     cursor: pointer;
 }
+.iti input,
+.iti__tel-input,
+.iti input[type="tel"],
+input[type="tel"],
+.field input[type="tel"] {
+    border: 2px solid blue !important;
+    width: 200px !important;
+    box-sizing: border-box !important;
+}
 
+/* Also target the container */
+/* Target intl-tel-input wrapper */
+.iti {
+    width: 100% !important;
+}
+
+.iti input {
+    width: 100% !important;
+    box-sizing: border-box; /* makes padding included in width */
+}
+.field {
+    width: 100%;
+    display: block;
+}
+
+/* Alternative: Target by attribute */
+input[placeholder="Enter phone number"] {
+    border: 2px solid purple !important;
+    width: 500px !important;
+}
+
+/* Target by ref name if needed */
+.field input[ref="phoneInputMobile"],
+.field input[ref="phoneInputDesktop"] {
+    border: 2px solid orange !important;
+    width: 500px !important;
+}
 /* Responsive */
 
 /* Mobile + Tablet (up to 900px) */
@@ -532,14 +575,70 @@ input::placeholder {
         padding: 30px;
     }
 
+.iti input,
+.iti__tel-input,
+.iti input[type="tel"],
+input[type="tel"],
+.field input[type="tel"] {
+    border: 2px solid blue !important;
+    width: 200px !important;
+    box-sizing: border-box !important;
+}
+.iti {
+    width: 500px !important;
+    border: 2px solid green !important;
+}
+
+/* Alternative: Target by attribute */
+input[placeholder="Enter phone number"] {
+    border: 2px solid purple !important;
+    width: 500px !important;
+}
+
+/* Target by ref name if needed */
+.field input[ref="phoneInputMobile"],
+.field input[ref="phoneInputDesktop"] {
+    border: 2px solid orange !important;
+    width: 200px !important;
+}
     .hero-mobile {
         display: block;
-        margin: 0 auto 0 auto;
+        margin: 0 auto 15 auto;
     }
 
     .hero-bg.desktop,
     .hero-overlay.desktop {
         display: none;
+    }
+
+    .form-top-logos-mobile {
+        display: block;
+        margin-top: 15px;
+    }
+.form-top-logos-mobile img {
+    width: 80%;      /* scale down for smaller screens */
+    max-width: 300px; /* optional cap */
+    display: block;
+    margin: 0 auto;
+}
+    .desktop-form {
+        display: none;
+    }
+
+    .form-wrapper.mobile-form .form-top-logos-mobile {
+        order: 4;
+        /* move below other content */
+    }
+
+    .note {
+        order: 1;
+        /* keep the financing note above the logos */
+        margin-top: 15px;
+    }
+
+    .hero-form {
+        order: 0;
+        /* form stays above the logos */
     }
 
     /* Show only mobile form */
@@ -554,7 +653,7 @@ input::placeholder {
     .container {
         display: flex;
         flex-direction: column;
-        padding: 0 15px; /* small padding on sides */
+        padding: 0 15px;
         margin: 0 auto;
         max-width: 100%;
         justify-content: center;
@@ -572,13 +671,17 @@ input::placeholder {
     }
 
     .field-row {
-        /* grid-template-columns: 1fr; */
+        grid-template-columns: 1fr;
     }
 }
 
 /* Desktop (above 900px) */
 @media (min-width: 901px) {
     .hero-mobile {
+        display: none;
+    }
+
+    .mobile-form {
         display: none;
     }
 

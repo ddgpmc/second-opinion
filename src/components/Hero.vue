@@ -185,13 +185,14 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import 'intl-tel-input/build/css/intlTelInput.css';
+import headerBg from '../assets/header-bg.webp';
 import intlTelInput from 'intl-tel-input';
 import '../assets/css/hero.css'; // <-- import the separate CSS file
 
 export default defineComponent({
     name: 'Hero',
     setup() {
-        const bgUrl = '/src/assets/header-bg.webp';
+        const bgUrl = headerBg;
         const form = ref({
             name: '', email: '', phone: '', bestTime: '', hasQuote: '', bestTimeHour: '',
             bestTimeMinute: '',

@@ -44,26 +44,25 @@
                                     <span class="label">Email</span>
                                     <input v-model="form.email" type="email" required autocomplete="email" />
                                 </label>
-<label class="field">
-  <span class="label">Best time to call</span>
-  <div class="time-picker">
-    <select v-model="form.bestTimeHour">
-      <option disabled value="">Hour</option>
-      <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
-    </select>
-    :
-    <select v-model="form.bestTimeMinute">
-      <option disabled value="">Minute</option>
-      <option v-for="m in 60" :key="m" :value="m">
-        {{ m < 10 ? '0' + m : m }}
-      </option>
-    </select>
-    <select v-model="form.bestTimeAmPm">
-      <option value="AM">AM</option>
-      <option value="PM">PM</option>
-    </select>
-  </div>
-</label>
+                                <label class="field">
+                                    <span class="label">Best time to call</span>
+                                    <div class="time-picker">
+                                        <select v-model="form.bestTimeHour">
+                                            <option disabled value="">Hour</option>
+                                            <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
+                                        </select>
+                                        :
+                                        <select v-model="form.bestTimeMinute">
+                                            <option disabled value="">Minute</option>
+                                            <option v-for="m in 60" :key="m" :value="m">
+                                                {{ m < 10 ? '0' + m : m }} </option>
+                                        </select>
+                                        <select v-model="form.bestTimeAmPm">
+                                            <option value="AM">AM</option>
+                                            <option value="PM">PM</option>
+                                        </select>
+                                    </div>
+                                </label>
 
                             </div>
 
@@ -146,24 +145,24 @@
                                 <span class="label">Email</span>
                                 <input v-model="form.email" type="email" required autocomplete="email" />
                             </label>
-<label class="field">
-  <span class="label">Best time to call</span>
-  <div class="time-picker">
-    <select v-model="form.bestTimeHour">
-      <option disabled value="">Hour</option>
-      <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
-    </select>
-    <span>:</span>
-    <select v-model="form.bestTimeMinute">
-      <option disabled value="">Minute</option>
-      <option v-for="m in 60" :key="m" :value="m">{{ m < 10 ? '0' + m : m }}</option>
-    </select>
-    <select v-model="form.bestTimeAmPm">
-      <option value="AM">AM</option>
-      <option value="PM">PM</option>
-    </select>
-  </div>
-</label>
+                            <label class="field">
+                                <span class="label">Best time to call</span>
+                                <div class="time-picker">
+                                    <select v-model="form.bestTimeHour">
+                                        <option disabled value="">Hour</option>
+                                        <option v-for="h in 12" :key="h" :value="h">{{ h }}</option>
+                                    </select>
+                                    <span>:</span>
+                                    <select v-model="form.bestTimeMinute">
+                                        <option disabled value="">Minute</option>
+                                        <option v-for="m in 60" :key="m" :value="m">{{ m < 10 ? '0' + m : m }}</option>
+                                    </select>
+                                    <select v-model="form.bestTimeAmPm">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </label>
 
                         </div>
 
@@ -190,63 +189,67 @@ import intlTelInput from 'intl-tel-input';
 import '../assets/css/hero.css'; // <-- import the separate CSS file
 
 export default defineComponent({
-  name: 'Hero',
-  setup() {
-    const bgUrl = '/src/assets/header-bg.webp';
-    const form = ref({ name: '', email: '', phone: '', bestTime: '', hasQuote: '' });
-    const formBlock = ref<HTMLElement | null>(null);
-    const phoneInputMobile = ref<HTMLInputElement | null>(null);
-    const phoneInputDesktop = ref<HTMLInputElement | null>(null);
-    const itiMobile = ref<any>(null);
-    const itiDesktop = ref<any>(null);
-
-    onMounted(() => {
-      if (phoneInputMobile.value) {
-        itiMobile.value = intlTelInput(phoneInputMobile.value, {
-          initialCountry: 'us',
-          separateDialCode: true,
-          utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js',
-          nationalMode: false,
-          autoHideDialCode: false
-        } as any);
-      }
-      if (phoneInputDesktop.value) {
-        itiDesktop.value = intlTelInput(phoneInputDesktop.value, {
-          initialCountry: 'us',
-          separateDialCode: true,
-          utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js'
-        } as any);
-      }
-    });
-
-    function onSubmit() {
-      if (itiMobile.value && phoneInputMobile.value?.offsetParent !== null) {
-        form.value.phone = itiMobile.value.getNumber();
-      } else if (itiDesktop.value && phoneInputDesktop.value?.offsetParent !== null) {
-        form.value.phone = itiDesktop.value.getNumber();
-      }
-
-      fetch('https://eo21rwdrgep7m0l.m.pipedream.net', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form.value)
-      })
-        .then(() => {
-          alert('Form submitted successfully!');
-          form.value = { name: '', email: '', phone: '', bestTime: '', hasQuote: '' };
-        })
-        .catch((error) => {
-          console.error('Error submitting form:', error);
-          alert('Something went wrong. Please try again.');
+    name: 'Hero',
+    setup() {
+        const bgUrl = '/src/assets/header-bg.webp';
+        const form = ref({
+            name: '', email: '', phone: '', bestTime: '', hasQuote: '', bestTimeHour: '',
+            bestTimeMinute: '',
+            bestTimeAmPm: '',
         });
-    }
+        const formBlock = ref<HTMLElement | null>(null);
+        const phoneInputMobile = ref<HTMLInputElement | null>(null);
+        const phoneInputDesktop = ref<HTMLInputElement | null>(null);
+        const itiMobile = ref<any>(null);
+        const itiDesktop = ref<any>(null);
 
-    function scrollToForm() {
-      formBlock.value?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+        onMounted(() => {
+            if (phoneInputMobile.value) {
+                itiMobile.value = intlTelInput(phoneInputMobile.value, {
+                    initialCountry: 'us',
+                    separateDialCode: true,
+                    utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js',
+                    nationalMode: false,
+                    autoHideDialCode: false
+                } as any);
+            }
+            if (phoneInputDesktop.value) {
+                itiDesktop.value = intlTelInput(phoneInputDesktop.value, {
+                    initialCountry: 'us',
+                    separateDialCode: true,
+                    utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js'
+                } as any);
+            }
+        });
 
-    return { bgUrl, form, onSubmit, formBlock, scrollToForm, phoneInputMobile, phoneInputDesktop };
-  }
+        function onSubmit() {
+            if (itiMobile.value && phoneInputMobile.value?.offsetParent !== null) {
+                form.value.phone = itiMobile.value.getNumber();
+            } else if (itiDesktop.value && phoneInputDesktop.value?.offsetParent !== null) {
+                form.value.phone = itiDesktop.value.getNumber();
+            }
+
+            fetch('https://eo21rwdrgep7m0l.m.pipedream.net', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form.value)
+            })
+                .then(() => {
+                    alert('Form submitted successfully!');
+                    form.value = { name: '', email: '', phone: '', bestTime: '', hasQuote: '' };
+                })
+                .catch((error) => {
+                    console.error('Error submitting form:', error);
+                    alert('Something went wrong. Please try again.');
+                });
+        }
+
+        function scrollToForm() {
+            formBlock.value?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        return { bgUrl, form, onSubmit, formBlock, scrollToForm, phoneInputMobile, phoneInputDesktop };
+    }
 });
 </script>
 
@@ -397,17 +400,18 @@ export default defineComponent({
     align-self: center;
     color: #0148a5;
 }
+
 .time-picker {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .time-picker select {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
 }
 
 .cta-title {
